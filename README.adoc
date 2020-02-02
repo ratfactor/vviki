@@ -1,0 +1,37 @@
+== Vw Lite
+
+At the moment this is "Vimwiki Lite". Just the features of VimWiki I actually use.
+
+=== Features
+
+Enter creates link, then follows link.
+
+Backspace goes 'back'.
+
+=== Why?
+
+AsciiDoc support - syntax highlighting separated from wiki functionality.
+
+Tiny, easy to modify.
+
+Fun to make.
+
+=== Quick Dev
+
+This has been awesome.  F4 opens a test wiki and the plugin and sources it.  Then F5 sources the plugin again and swaps back and forth between the wiki and plugin in splits.  Love it.
+
+----
+let g:vimwiki_lite_root = "~/vwlite"
+let g:vimwiki_lite_ext  = ".adoc"
+" Quick development: hit F5 to save, source, and jump to split window
+function! Devthis()
+	let l:pluginsrc = '~/d/proj/vwlite/vwlite.vim'
+	exe "nnoremap <F5> :w\<cr>:so ".l:pluginsrc."\<cr>\<C-w>\<C-w>"
+	exe "so ".l:pluginsrc
+	exe "edit ".l:pluginsrc
+	exe "split ".g:vimwiki_lite_root."/index.adoc"
+endfunction
+
+" Setup dev environment for vw lite plugin
+nnoremap <F4> :call Devthis()<cr>
+----

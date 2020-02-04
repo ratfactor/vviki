@@ -1,16 +1,16 @@
-== Vwlite
+= Vwlite
 
 The name comes from "VimWiki Lite". It's a tiny re-implementation of the core features of VimWiki I love and use daily.
 
 But please call it "Vwlite" (maybe pronounced "vowelite?") and not "VimWiki Lite" because I don't want people to think this is associated with VimWiki (which is its own awesome, well-maintained project).
 
-=== Features
+== Features
 
 * Hit Enter on a word to create a link
 * Hit Enter on a link to edit that page (or open URL)
 * Backspace opens previous page
 
-=== Why?
+== Why?
 
 I wanted VimWiki to support AsciiDoc syntax, but found that syntax was deeply tied to VimWiki functionality.
 Full support for AsciiDoc was going to mean hacking lots of VimWiki features I don't actually use myself.
@@ -26,7 +26,7 @@ The big idea here is to "do one thing and do it well". Keep these things separat
 
 So I've written my own plugin that is as small as possible, while supporting the same core wiki functionality from VimWiki that I love so much.
 
-=== Quick Dev
+== Quick Dev
 
 F4 opens a test wiki and the plugin and sources it.
 
@@ -50,3 +50,27 @@ endfunction
 " Setup dev environment for vw lite plugin
 nnoremap <F4> :call Devthis()<cr>
 ----
+
+== License
+
+MIT License
+
+Copyright (c) 2020 Dave Gauer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

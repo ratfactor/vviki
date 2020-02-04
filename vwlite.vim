@@ -1,20 +1,21 @@
 
-if !exists('g:vimwiki_lite_root')
-	let g:vimwiki_lite_root = "~/vwlite"
+if !exists('g:vwlite_root')
+	let g:vwlite_root = "~/vwlite"
 endif
 
-if !exists('g:vimwiki_lite_ext')
-	let g:vimwiki_lite_ext = ".adoc"
+if !exists('g:vwlite_ext')
+	let g:vwlite_ext = ".adoc"
 endif
 
 let s:history = []
 
-
-" Links
-"   This http://example.com is a link.
-"   This http://example.com[Example] is also.
-"   This link:page[is also] a link.
-"   This link:http://example.com[Example] is also.
+" Supported link styles:
+"   http://example.com               - external
+"   http://example.com[Example]      - external
+"   link:http://example.com[Example] - external
+"   link:page[My Page]               - internal
+"   link:/page[My Page]              - internal absolute path
+"   link:../page[My Page]            - internal relative path
 function! VwlLink()
 	let l:word = expand("<cWORD>")
 
@@ -35,8 +36,13 @@ function! VwlLink()
 		let l:word = substitute(l:word, '\[.*$','','')
 		let l:word = substitute(l:word, '^link:','','')
 
-		" TODO: get relative to the current page's dir, not the wiki root!
-		let l:fname = fnamemodify(g:vimwiki_lite_root ."/".l:word.g:vimwiki_lite_ext, ":p") 
+		if l:word =~ '^/'
+			" Path absolute from wiki root
+			let l:fname = g:vwlite_root."/".l:word.g:vwlite_ext
+		else
+			" Path relative to current page
+			let l:fname = expand("%:p:h")."/".l:word.g:vwlite_ext
+		endif
 		execute "edit ".l:fname
 	
 	" Not a link yet - make it a link
@@ -47,7 +53,6 @@ endfunction
 
 function! VwlBack()
 	if len(s:history) < 1
-		echom "hit beginning of history."
 		return
 	endif
 
@@ -68,7 +73,7 @@ function! VwlMap()
 endfunction
 
 " This part belongs in <plugin>/ftdetect/vwlite.vim
-let s:root = expand(g:vimwiki_lite_root)
+let s:root = expand(g:vwlite_root)
 
 augroup vwlite
 	au!

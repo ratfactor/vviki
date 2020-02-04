@@ -1,0 +1,45 @@
+== TODO
+
+* [x] Absolute vs relative internal links
+* [ ] Make vwlite a "real" plugin
+* [ ] Write proper documentation
+* [ ] Allow alternative syntaxes (using pattern templates or lambdas?)
+* [ ] Configurable wiki path
+* [ ] Configurable wiki file extension
+* [ ] Checklist handling shortcuts
+* [ ] Multiple wikis (I don't do these - prefer one big wiki with sub-wikis)
+
+Make a real plugin
+
+	put vwlite.vim into a new plugin/ dir
+	prevent multiple loads with a guard variable
+
+		if exists('g:loaded_vwlite')
+			finish
+		endif
+		let g:loaded_vwlite = 1
+
+	then my 'quick development' stuff can still work by unsetting g:loaded_vwlite 
+
+		unlet g:loaded_vwlite
+
+	documentation 
+
+		follow instructions on vimscript the hard way book
+
+
+test plugin locally with vundle:
+
+	give it path in .vimrc
+
+		" git repos on your local machine (i.e. when working on your own plugin)
+		Plugin 'file:///home/gmarik/path/to/plugin'
+
+	manage it with vundle (the "!" makes it :
+
+		:PluginList
+		:PluginInstall!
+
+
+
+

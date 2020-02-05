@@ -1,4 +1,14 @@
+"
+" Vwlite! A 'lite' wiki for Vim!
+"
 
+if exists('g:loaded_vwlite')
+	finish
+endif
+let g:loaded_vwlite = 1
+
+
+" Load defaults
 if !exists('g:vwlite_root')
 	let g:vwlite_root = "~/vwlite"
 endif

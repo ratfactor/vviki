@@ -1,13 +1,13 @@
 == TODO
 
 * [x] Absolute vs relative internal links
-* [x] Make vwlite a "real" plugin
+* [x] Make VViki a "real" plugin
+* [ ] Fix bug with description in link macros (can't use WORD)
 * [ ] Write proper documentation
-* [ ] Allow alternative syntaxes (using pattern templates or lambdas?)
-* [ ] Configurable wiki path
-* [ ] Configurable wiki file extension
-* [ ] Checklist handling shortcuts
-* [ ] Multiple wikis (I don't do these - prefer one big wiki with sub-wikis)
+* [ ] Try using 'conceal' for syntax to display pretty links
+* [x] Configurable wiki path
+* [x] Configurable wiki file extension
+* [ ] Checklist handling shortcuts (maybe)
 
 
 documentation 
@@ -22,7 +22,7 @@ test plugin locally with vundle:
 		" git repos on your local machine (i.e. when working on your own plugin)
 		Plugin 'file:///home/gmarik/path/to/plugin'
 
-	manage it with vundle (the "!" makes it :
+	manage it with vundle (the "!" updates)
 
 		:PluginList
 		:PluginInstall!

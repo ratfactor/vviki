@@ -1,20 +1,23 @@
 "
-" Vwlite! A 'lite' wiki for Vim!
+" = VViki =
+" AsciiDoc-flavored wiki plugin for Vim.
+" Copyright (c) 2020 Dave Gauer
+" MIT License
 "
 
-if exists('g:loaded_vwlite')
+if exists('g:loaded_vviki')
 	finish
 endif
-let g:loaded_vwlite = 1
+let g:loaded_vviki = 1
 
 
 " Load defaults
-if !exists('g:vwlite_root')
-	let g:vwlite_root = "~/vwlite"
+if !exists('g:vviki_root')
+	let g:vviki_root = "~/wiki"
 endif
 
-if !exists('g:vwlite_ext')
-	let g:vwlite_ext = ".adoc"
+if !exists('g:vviki_ext')
+	let g:vviki_ext = ".adoc"
 endif
 
 let s:history = []
@@ -26,7 +29,7 @@ let s:history = []
 "   link:page[My Page]               - internal
 "   link:/page[My Page]              - internal absolute path
 "   link:../page[My Page]            - internal relative path
-function! VwlLink()
+function! VVLink()
 	let l:word = expand("<cWORD>")
 
 	" External URL link - open in browser
@@ -48,10 +51,10 @@ function! VwlLink()
 
 		if l:word =~ '^/'
 			" Path absolute from wiki root
-			let l:fname = g:vwlite_root."/".l:word.g:vwlite_ext
+			let l:fname = g:vviki_root."/".l:word.g:vviki_ext
 		else
 			" Path relative to current page
-			let l:fname = expand("%:p:h")."/".l:word.g:vwlite_ext
+			let l:fname = expand("%:p:h")."/".l:word.g:vviki_ext
 		endif
 		execute "edit ".l:fname
 	
@@ -61,7 +64,7 @@ function! VwlLink()
 	endif
 endfunction
 
-function! VwlBack()
+function! VVBack()
 	if len(s:history) < 1
 		return
 	endif
@@ -71,22 +74,22 @@ function! VwlBack()
 	execute "edit ".l:last
 endfunction
 
-function! VwlMap()
+function! VVMap()
 	" Set wiki pages to automatically save
 	set autowriteall
 
 	" Map ENTER key to create/follow links
-	nnoremap <buffer> <CR> :call VwlLink()<CR>
+	nnoremap <buffer> <CR> :call VVLink()<CR>
 
 	" Map BACKSPACE key to go back in history
-	nnoremap <buffer> <BS> :call VwlBack()<CR>
+	nnoremap <buffer> <BS> :call VVBack()<CR>
 endfunction
 
-" This part belongs in <plugin>/ftdetect/vwlite.vim
-let s:root = expand(g:vwlite_root)
+" This part belongs in <plugin>/ftdetect/vviki.vim
+let s:root = expand(g:vviki_root)
 
-augroup vwlite
+augroup vviki
 	au!
-	execute "au BufNewFile,BufRead ".s:root."/*.adoc call VwlMap()"
+	execute "au BufNewFile,BufRead ".s:root."/*.adoc call VVMap()"
 augroup END
 

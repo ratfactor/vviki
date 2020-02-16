@@ -1,55 +1,69 @@
-= Vwlite
+= VViki
 
-The name comes from "VimWiki Lite". It's a tiny re-implementation of the core features of VimWiki I love and use daily.
+image::vviki.svg[VViki Logo,align=center]
 
-But please call it "Vwlite" (maybe pronounced "vowelite?") and not "VimWiki Lite" because I don't want people to think this is associated with VimWiki (which is its own awesome, well-maintained project).
+== Overview
 
-== Features
+VViki is a tiny AsciiDoc-flavored wiki plugin for Vim.
+It was inspired by link:https://github.com/vimwiki/vimwiki[VimWiki], 
+uses Vim's existing AsciiDoc syntax highlighting,
+and aims to be extremely lightweight.
+
+== Features / Usage
 
 * Hit Enter on a word to create a link
-* Hit Enter on a link to edit that page (or open URL)
+* Hit Enter on a link to edit that page (or open URL in a browser)
 * Backspace opens previous page
+
+
+== Install
+
+=== Vundle
+
+Add this to your plugin list (in your `.vimrc` file):
+
+----
+Plugin 'ratfactor/vviki'
+----
+
+Then run `:source %` and `:BundleInstall`.
+
+== Setup
+
+Add something like this to your `.vimrc`:
+
+----
+" VViki setup
+let g:vviki_root = "~/wiki"
+let g:vviki_ext  = ".adoc"
+nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
+----
+
+This will set the root of your wiki to `~/wiki`.
+Any file with a `.adoc` extension in that directory (or subdirectory) will have wiki functionality.
+
+It also maps the `<leader>ww` key sequence to open the index (start page) of your wiki, just like VimWiki. (To see your leader key, try `:echo mapleader`.)
+
+Note: VViki does not create directories, so you'll need to create `~/wiki` if it does not already exist.
+
 
 == Why?
 
-I wanted VimWiki to support AsciiDoc syntax, but found that syntax was deeply tied to VimWiki functionality.
-Full support for AsciiDoc was going to mean hacking lots of VimWiki features I don't actually use myself.
+I love link:https://github.com/vimwiki/vimwiki[VimWiki].
+I also love AsciiDoc, but VimWiki doesn't support AsciiDoc syntax.
+I put a day or two into adding full AsciiDoc support to VimWiki, but eventually concluded, "it would be faster just to create my own plugin."  And it was!
 
-Plus, I was already using my own scripts to create diary entries, etc. So I wasn't benefitting much from the bulk.
+VViki aims to "do one thing and do it well".
+This table explains the difference:
 
-The big idea here is to "do one thing and do it well". Keep these things separate:
+[options="header"]
+|===
+|Feature|VimWiki|VViki
+|Wiki functionality|X|X
+|Syntax highlighting|X|
+|Tooling (search, HTML export, etc.)|X|
+|===
 
-1. Wiki functionality (me!)
-2. Syntax highlighting (built-in Vim or plugin)
-3. Searching, filtering (Silver Searcher, ripgrep, etc., FZF)
-4. Exporting to HTML (AsciiDoctor, etc.)
-
-So I've written my own plugin that is as small as possible, while supporting the same core wiki functionality from VimWiki that I love so much.
-
-== Quick Dev
-
-F4 opens a test wiki and the plugin and sources it.
-
-Thereafter, F5 sources the plugin again and swaps back and forth between the wiki and plugin in splits.  Love it.
-
-----
-"
-" In ~/.vimrc
-"
-let g:vwlite_root = "~/vwlite"
-let g:vwlite_ext  = ".adoc"
-" Quick development: hit F5 to save, source, and jump to split window
-function! Devthis()
-	let l:pluginsrc = '~/d/proj/vwlite/vwlite.vim'
-	exe "nnoremap <F5> :w\<cr>:so ".l:pluginsrc."\<cr>\<C-w>\<C-w>"
-	exe "so ".l:pluginsrc
-	exe "edit ".l:pluginsrc
-	exe "split ".g:vwlite_root."/index.adoc"
-endfunction
-
-" Setup dev environment for vw lite plugin
-nnoremap <F4> :call Devthis()<cr>
-----
 
 == License
 

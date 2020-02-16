@@ -2,8 +2,8 @@
 
 * [x] Absolute vs relative internal links
 * [x] Make VViki a "real" plugin
-* [ ] Fix bug with description in link macros (can't use WORD)
-* [ ] Write proper documentation
+* [x] Fix bug with description in link macros - need proper line parsing
+* [ ] Write proper documentation (see Vimscript the Hard Way)
 * [ ] Try using 'conceal' for syntax to display pretty links
 * [x] Configurable wiki path
 * [x] Configurable wiki file extension
@@ -13,20 +13,3 @@
 documentation 
 
 	follow instructions on vimscript the hard way book
-
-
-test plugin locally with vundle:
-
-	give it path in .vimrc
-
-		" git repos on your local machine (i.e. when working on your own plugin)
-		Plugin 'file:///home/gmarik/path/to/plugin'
-
-	manage it with vundle (the "!" updates)
-
-		:PluginList
-		:PluginInstall!
-
-
-
-

@@ -65,6 +65,20 @@ This table explains the difference:
 |===
 
 
+== TODO
+
+* [x] Absolute vs relative internal links
+* [x] Make VViki a "real" plugin
+* [x] Fix bug with description in link macros - need proper line parsing
+* [x] Try using 'conceal' for syntax to display pretty links
+* [x] Configurable wiki path
+* [x] Configurable wiki file extension
+* [x] Start help doc
+* [ ] Finish help doc
+* [ ] Checklist handling shortcuts (maybe)
+* [ ] Consider creating directories as needed (limit to wiki root)
+
+
 == License
 
 MIT License

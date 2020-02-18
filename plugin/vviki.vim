@@ -119,6 +119,15 @@ function! VVSetup()
 
 	" Map BACKSPACE key to go back in history
 	nnoremap <buffer> <BS> :call VVBack()<CR>
+
+	" Hide the heavy link AsciiDoc link syntax:
+	"   link:<path>[<description>]
+	" Level 2 hides the matched syntax.
+	set conceallevel=2
+	" Match 'link:<path>['
+	call matchadd('Conceal', '\vlink:[^[]+\[')
+	" Match the ending ']'
+	call matchadd('Conceal', '\vlink:[^[]+\[[^]]+\zs\]')
 endfunction
 
 " Detect wiki page
@@ -126,6 +135,6 @@ endfunction
 " map VViki keyboard shortcuts, etc.
 augroup vviki
 	au!
-	execute "au BufNewFile,BufRead ".g:vviki_root."/*".g:vviki_ext." call VVSetup()"
+	execute "au BufNewFile,BufRead,BufEnter,WinEnter ".g:vviki_root."/*".g:vviki_ext." call VVSetup()"
 augroup END
 

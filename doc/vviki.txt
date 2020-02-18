@@ -1,0 +1,99 @@
+*vviki.txt*     AsciiDoc-flavored wiki plugin for Vim
+                    ____   ________   ____ __ __    __                       ~
+                    \   \ /   /\   \ /   /|__|  | _|__|                      ~
+                     \   v   /  \   v   / |  |  |/ /  |                      ~
+                      \     /    \     /  |  |    <|  |                      ~
+                       \___/      \___/   |__|__|_ \__|                      ~
+                                                  \/                         ~
+
+                                                                       *vviki*
+1. 1ntroduction    |vviki-introduction|
+2. Usage           |vviki-usage|
+3. Mappings        |vviki-mappings|
+4. Configuration   |vviki-configuration|
+5. License         |vviki-license|
+
+==============================================================================
+1. Introduction                                           *vviki-introduction*
+
+VViki provides "wiki-like" functionality for Vim. It aims to make creating
+linked 'pages' of content as painless as possible by providing simple keyboard
+mappings to link pages, create new pages, and navigate between pages.
+
+VViki was inspired by VimWiki (and shares many of the same mappings).
+
+VViki uses AsciiDoc syntax because that is what the author prefers (AsciiDoc is
+lightweight and readable like Markdown, but has the expressive power of DocBook
+- a markup language intended for authoring technical documentation.) VViki uses
+Vim's existing AsciiDoc syntax highlighting (or you are free to substitute any
+other AsciiDoc syntax highlighter - or none at all).
+
+VViki is excellent for:
+
+ * Technical documentation
+ * Mind-mapping
+ * Note-taking
+ * Diary entries
+ * Website authoring
+
+VViki is ready for your great content now!
+
+==============================================================================
+2. Usage                                                         *vviki-usage*
+
+TODO: basic tutorial and high-level overview of use
+
+==============================================================================
+3. Mappings                                                   *vviki-mappings*
+
+VViki has no global mappings.  When a new wiki page is detected, the following
+mappings are available:
+
+TODO: complete this:
+
+cr        - create link or follow link
+backspace - previous page
+
+==============================================================================
+4. Configuration                                         *vviki-configuration*
+
+TODO: flesh this out
+At the moment, VViki has two settings.
+
+let g:vviki_root = "~/wiki"
+let g:vviki_ext  = ".adoc"
+
+You'll probably also want to add a shortcut to open your wiki. The easier it
+is to get to the wiki, the more likely you are to use it as needed.
+
+This mimics VimWiki's mapping to open the wiki index:
+
+nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
+
+Tip: consider creating other mappings to J open other wiki pages you use
+frequently!
+
+==============================================================================
+5. License                                                     *vviki-license*
+
+MIT License
+
+Copyright (c) 2020 Dave Gauer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

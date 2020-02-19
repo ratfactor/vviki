@@ -18,6 +18,7 @@ endif
 " Navigation history for Backspace
 let s:history = []
 
+
 " Supported link styles:
 function! VVEnter()
 	" Get path from AsciiDoc link macro
@@ -54,6 +55,7 @@ function! VVEnter()
 	execute "normal! ciWlink:".l:word."[".l:word."]\<ESC>"
 endfunction
 
+
 function! VVGetLink()
 	" Captures the <path> portion of 'link:<path>[description]'
     let l:linkrx = 'link:\([^[]\+\)\[[^]]\+\]'
@@ -82,6 +84,7 @@ function! VVGetLink()
     endwhile
 endfunction
 
+
 function! VVGoPath(path)
 	" Push current page onto history
 	call add(s:history, expand("%:p"))
@@ -97,9 +100,11 @@ function! VVGoPath(path)
 	execute "edit ".l:fname
 endfunction
 
+
 function! VVGoUrl(url)
 	call system('xdg-open '.shellescape(a:url).' &')
 endfunction
+
 
 function! VVBack()
 	if len(s:history) < 1
@@ -109,6 +114,7 @@ function! VVBack()
 	let l:last = remove(s:history, -1)
 	execute "edit ".l:last
 endfunction
+
 
 function! VVSetup()
 	" Set wiki pages to automatically save
@@ -120,21 +126,22 @@ function! VVSetup()
 	" Map BACKSPACE key to go back in history
 	nnoremap <buffer> <BS> :call VVBack()<CR>
 
-	" Hide the heavy link AsciiDoc link syntax:
-	"   link:<path>[<description>]
-	" Level 2 hides the matched syntax.
+	" Conceal the AsciiDoc link syntax until the cursor enters
+	" the same line.
 	set conceallevel=2
-	" Match 'link:<path>['
-	call matchadd('Conceal', '\vlink:[^[]+\[')
-	" Match the ending ']'
-	call matchadd('Conceal', '\vlink:[^[]+\[[^]]+\zs\]')
+	syntax region vvikiLink start=/link:/ end=/\]/ keepend
+	syntax match vvikiLinkGuts /link:[^[]\+\[/ containedin=vvikiLink contained conceal
+	syntax match vvikiLinkGuts /\]/ containedin=vvikiLink contained conceal
+	highlight link vvikiLink Macro
+	highlight link vvikiLinkGuts Comment
 endfunction
+
 
 " Detect wiki page
 " If a buffer has the right parent directory and extension,
 " map VViki keyboard shortcuts, etc.
 augroup vviki
 	au!
-	execute "au BufNewFile,BufRead,BufEnter,WinEnter ".g:vviki_root."/*".g:vviki_ext." call VVSetup()"
+	execute "au BufNewFile,BufRead ".g:vviki_root."/*".g:vviki_ext." call VVSetup()"
 augroup END
 

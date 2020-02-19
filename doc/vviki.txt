@@ -10,8 +10,11 @@
 1. 1ntroduction    |vviki-introduction|
 2. Usage           |vviki-usage|
 3. Mappings        |vviki-mappings|
+     <CR>          |vviki-enter|
+     <Backspace>   |vviki-back|
 4. Configuration   |vviki-configuration|
 5. License         |vviki-license|
+
 
 ==============================================================================
 1. Introduction                                           *vviki-introduction*
@@ -38,10 +41,27 @@ VViki is excellent for:
 
 VViki is ready for your great content now!
 
+
 ==============================================================================
 2. Usage                                                         *vviki-usage*
 
-TODO: basic tutorial and high-level overview of use
+There is plentiful information about AsciiDoc syntax available on the Web.
+Much of the basic formatting is very similar to Markdown.
+
+The most important thing to understand is the link "macro" syntax:
+
+>
+	link:http://example.com[Example]   external
+	link:page[My Page]                 internal
+	link:/page[My Page]                internal absolute path
+	link:../page[My Page]              internal relative path
+<
+
+It's a little verbose, and that's where VViki's link mapping comes in quite
+handy |vviki-enter|.
+
+TODO: continue this...
+
 
 ==============================================================================
 3. Mappings                                                   *vviki-mappings*
@@ -49,10 +69,32 @@ TODO: basic tutorial and high-level overview of use
 VViki has no global mappings.  When a new wiki page is detected, the following
 mappings are available:
 
-TODO: complete this:
+<CR>         |vviki-enter| Create/follow link under cursor.
 
-cr        - create link or follow link
-backspace - previous page
+<Backspace>  |vviki-back| Return to previous page.
+
+------------------------------------------------------------------------------
+                                                                 *vviki-enter*
+
+When you press Return/Enter on a normal piece of text, VViki will turn the
+text into a link using the WORD (sequence of non-blank characters under the
+cursor). `my_page` becomes `link:my_page[my_page]`.
+
+Pressing Return/Enter on an existing internal (wiki) link will open that page
+for editing. (New pages will be created.)
+
+NOTE: At this time, VViki doesn't create directories. You may want to create
+subdirectories before editing pages within them.
+
+Pressing Return/Enter on an external (Web) link will attempt to open the URL
+using the `xdg-open` application.
+
+------------------------------------------------------------------------------
+                                                                  *vviki-back*
+
+VViki keeps a history of visited wiki pages. Pressing Backspace in normal mode
+visits the previously visited page and the page before that until you run out
+of history.
 
 ==============================================================================
 4. Configuration                                         *vviki-configuration*
@@ -60,8 +102,10 @@ backspace - previous page
 TODO: flesh this out
 At the moment, VViki has two settings.
 
-let g:vviki_root = "~/wiki"
-let g:vviki_ext  = ".adoc"
+>
+    let g:vviki_root = "~/wiki"
+    let g:vviki_ext  = ".adoc"
+<
 
 You'll probably also want to add a shortcut to open your wiki. The easier it
 is to get to the wiki, the more likely you are to use it as needed.
@@ -72,6 +116,7 @@ nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
 
 Tip: consider creating other mappings to J open other wiki pages you use
 frequently!
+
 
 ==============================================================================
 5. License                                                     *vviki-license*

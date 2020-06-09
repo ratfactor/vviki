@@ -15,6 +15,10 @@ if !exists('g:vviki_ext')
 	let g:vviki_ext = ".adoc"
 endif
 
+if !exists('g:vviki_index')
+    let g:vviki_index = "index"
+endif
+
 " Navigation history for Backspace
 let s:history = []
 
@@ -86,18 +90,25 @@ endfunction
 
 
 function! VVGoPath(path)
-	" Push current page onto history
-	call add(s:history, expand("%:p"))
+    " Push current page onto history
+    call add(s:history, expand("%:p"))
 
-	if a:path =~ '^/'
-		" Path absolute from wiki root
-		let l:fname = g:vviki_root."/".a:path.g:vviki_ext
-	else
-		" Path relative to current page
-		let l:fname = expand("%:p:h")."/".a:path.g:vviki_ext
-	endif
+    let l:fname = a:path
 
-	execute "edit ".l:fname
+    if l:fname =~ '/$'
+        " Path points to a directory, append default 'index' page
+        let l:fname = l:fname.g:vviki_index
+    end
+
+    if l:fname =~ '^/'
+        " Path absolute from wiki root
+        let l:fname = g:vviki_root."/".l:fname.g:vviki_ext
+    else
+        " Path relative to current page
+        let l:fname = expand("%:p:h")."/".l:fname.g:vviki_ext
+    endif
+
+    execute "edit ".l:fname
 endfunction
 
 

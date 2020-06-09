@@ -73,10 +73,16 @@ This table explains the difference:
 * [x] Try using 'conceal' for syntax to display pretty links
 * [x] Configurable wiki path
 * [x] Configurable wiki file extension
+* [x] Add default "index" files for "directory/" wiki paths
 * [x] Start help doc
 * [ ] Finish help doc
-* [ ] Checklist handling shortcuts (maybe)
+* [ ] Global setting to turn off link syntax conceal
+* [ ] Add <tab> key link navigation (jump to next link)
+* [ ] Wishlist: some sort of shortcut (with pattern matching) to add
+      links to existing wiki pages
+* [ ] Wishlist: checklist shortcuts (check/uncheck [ ] boxes)
 * [ ] Consider creating directories as needed (limit to wiki root)
+* [ ] Release 1.0
 
 
 == License

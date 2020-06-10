@@ -48,19 +48,20 @@ function! VVEnter()
 	"   1. We are on whitespace
 	"   2. We are on a bare URL (http://...)
 	"   3. We are on an unlinked word
-	let l:word = expand("<cWORD>")
+	let l:whole_word = expand("<cWORD>") " selects all non-whitespace chars
+	let l:word = expand("<cword>") " selects only 'word' chars
 
-	if l:word == ''
+	if l:whole_word == ''
 		return
 	endif
 
-	if l:word =~ '^https\?://'
-		call VVGoUrl(l:word)
+	if l:whole_word =~ '^https\?://'
+		call VVGoUrl(l:whole_word)
 		return
 	endif
 
 	" Not a link yet - make it a link!
-	execute "normal! ciWlink:".l:word."[".l:word."]\<ESC>"
+	execute "normal! ciwlink:".l:word."[".l:word."]\<ESC>"
 endfunction
 
 

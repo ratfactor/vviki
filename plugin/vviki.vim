@@ -19,6 +19,10 @@ if !exists('g:vviki_index')
     let g:vviki_index = "index"
 endif
 
+if !exists('g:vviki_conceal_links')
+    let g:vviki_conceal_links = 1
+endif
+
 " Navigation history for Backspace
 let s:history = []
 
@@ -137,14 +141,16 @@ function! VVSetup()
 	" Map BACKSPACE key to go back in history
 	nnoremap <buffer> <BS> :call VVBack()<CR>
 
-	" Conceal the AsciiDoc link syntax until the cursor enters
-	" the same line.
-	set conceallevel=2
-	syntax region vvikiLink start=/link:/ end=/\]/ keepend
-	syntax match vvikiLinkGuts /link:[^[]\+\[/ containedin=vvikiLink contained conceal
-	syntax match vvikiLinkGuts /\]/ containedin=vvikiLink contained conceal
-	highlight link vvikiLink Macro
-	highlight link vvikiLinkGuts Comment
+    if g:vviki_conceal_links
+        " Conceal the AsciiDoc link syntax until the cursor enters
+        " the same line.
+        set conceallevel=2
+        syntax region vvikiLink start=/link:/ end=/\]/ keepend
+        syntax match vvikiLinkGuts /link:[^[]\+\[/ containedin=vvikiLink contained conceal
+        syntax match vvikiLinkGuts /\]/ containedin=vvikiLink contained conceal
+        highlight link vvikiLink Macro
+        highlight link vvikiLinkGuts Comment
+    endif
 endfunction
 
 

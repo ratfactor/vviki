@@ -1,4 +1,4 @@
-*vviki.txt*     AsciiDoc-flavored wiki plugin for Vim
+*vviki.txt*           AsciiDoc-flavored wiki plugin for Vim
                     ____   ________   ____ __ __    __                       ~
                     \   \ /   /\   \ /   /|__|  | _|__|                      ~
                      \   v   /  \   v   / |  |  |/ /  |                      ~
@@ -7,7 +7,7 @@
                                                   \/                         ~
 
                                                                        *vviki*
-1. 1ntroduction    |vviki-introduction|
+1. Introduction    |vviki-introduction|
 2. Usage           |vviki-usage|
 3. Mappings        |vviki-mappings|
      <CR>          |vviki-enter|
@@ -39,7 +39,7 @@ VViki is excellent for:
  * Diary entries
  * Website authoring
 
-VViki is ready for your great content now!
+VViki is ready for your content now!
 
 
 ==============================================================================
@@ -49,45 +49,78 @@ There is plentiful information about AsciiDoc syntax available on the Web.
 Much of the basic formatting is very similar to Markdown.
 
 The most important thing to understand is the link "macro" syntax:
-
 >
-	link:http://example.com[Example]   external
-	link:page[My Page]                 internal
-	link:/page[My Page]                internal absolute path
-	link:../page[My Page]              internal relative path
+	link:http://example.com[Example]     external URL
+	link:mypage[My Page]                 (same dir)/mypage.adoc
+	link:/mypage[My Page]                (wiki root)/mypage.adoc
+	link:../mypage[My Page]              (up a dir)/mypage.adoc
+    link:mydir/mypage2[My Page Two]      (same dir)/mydir/mypage2.adoc
+    link:mydir/[My Dir]                  (same dir)/mydir/index.adoc
 <
+(Examples assume VViki defaults.)
 
-It's a little verbose, and that's where VViki's link mapping comes in quite
-handy |vviki-enter|.
+AsciiDoc's `link:<path>[label]` format is a little verbose, and that's where
+VViki's link mapping comes in handy. Enter creates links from plain words or
+follows existing links. (|vviki-enter|)
 
-TODO: continue this...
+Assuming VViki is installed and no defaults have been changed, here's what an
+initial wiki session might look like:
+
+1. `:e ~/wiki/index.adoc` to create and edit the wiki index page.
+2. Enter the following content:
+>
+    = My Wiki
+
+    I like toys and paper.
+<
+3. In normal mode, press Enter on the words "toys" and "paper" to turn them
+   into links:
+>
+    = My Wiki
+
+    I like link:toys[toys] and link:paper[paper].
+<
+4. Still in normal mode, press Enter on the "toys" link to create the content
+   on that page.
+5. Press Backspace to return to the index page.  You do not have to save the
+   toys page manually. VViki automatically saves as you navigate from page
+   to page.
+6. Repeat for the "paper" page.
+
+You now have a wiki with three pages.
 
 
 ==============================================================================
 3. Mappings                                                   *vviki-mappings*
 
-VViki has no global mappings.  When a new wiki page is detected, the following
-mappings are available:
+VViki has no global mappings.  When a new wiki page is detected (based on
+directory), the following local mappings are available:
 
 <CR>         |vviki-enter| Create/follow link under cursor.
 
 <Backspace>  |vviki-back| Return to previous page.
 
+(See the action descriptions below for more details about what each mapping
+does.)
+
 ------------------------------------------------------------------------------
                                                                  *vviki-enter*
 
-When you press Return/Enter on a normal piece of text, VViki will turn the
-text into a link using the WORD (sequence of non-blank characters under the
-cursor). `my_page` becomes `link:my_page[my_page]`.
+Put your cursor on a plain "word" in normal mode and press Enter to convert
+the word to a link. The link destination and label will both be the word. For
+example, the link below was created by pressing Enter on the word 'cheese'.
+>
+    Click on link:cheese[cheese] to learn more.
+<
+Pressing Enter again on the new 'cheese' link will open `cheese.adoc` for
+editing (whether it already exists or not).
 
-Pressing Return/Enter on an existing internal (wiki) link will open that page
-for editing. (New pages will be created.)
+Pressing Enter on an external (Web) link will attempt to open the URL using
+the `xdg-open` application.
 
-NOTE: At this time, VViki doesn't create directories. You may want to create
-subdirectories before editing pages within them.
-
-Pressing Return/Enter on an external (Web) link will attempt to open the URL
-using the `xdg-open` application.
+NOTE: At this time, VViki happily creates new pages, but doesn't create
+directories. You may want to create subdirectories before editing pages within
+them.
 
 ------------------------------------------------------------------------------
                                                                   *vviki-back*
@@ -99,22 +132,58 @@ of history.
 ==============================================================================
 4. Configuration                                         *vviki-configuration*
 
-TODO: flesh this out
-At the moment, VViki has two settings.
+VViki has these default values:
 
+    Setting               | Default Value
+--------------------------+---------------
+ `g:vviki_root`           | ~/wiki
+ `g:vviki_ext`            | .adoc
+ `g:vviki_index`          | index
+ `g:vviki_conceal_links`  | 1
+
+Here's how you might use a custom directory for your wiki:
 >
-    let g:vviki_root = "~/wiki"
-    let g:vviki_ext  = ".adoc"
+    let g:vviki_root = "~/my_cool_wiki"
+<
+These settings would most likely be set in your `~.vimrc` file or equivalent.
+
+                                                                *g:vviki_root*
+Set the root directory of the wiki using `g:vviki_root`. VViki will use this
+root to detect wiki pages when they are opened. Files outside of this root
+will not be detected as wiki pages regardless of file extension.
+
+                                                                 *g:vviki_ext*
+Set the file extension for wiki pages with `g:vviki_ext`. Since VViki is
+intended to be used with AsciiDoc source files, you may wish to use .adoc (the
+default) or .asciidoc, but anything is allowed. VViki will use this extension
+to find existing files (by appending the extension to link names to make a
+file path) and when it creates new pages.
+
+                                                               *g:vviki_index*
+You can define a custom name for "index" pages - the default page accessed by a
+link to a directory (ending in a slash). These are analogous to the default
+documents served up by web servers (such as "index.html"). With the default
+setting, the following links are exactly equivalent. Both will open
+`cheese/index.adoc` (assuming the default extension):
+>
+    Notes about link:cheese/[Cheese].
+    Notes about link:cheese/index[Cheese].
 <
 
-You'll probably also want to add a shortcut to open your wiki. The easier it
-is to get to the wiki, the more likely you are to use it as needed.
+                                                       *g:vviki_conceal_links*
+With this option turned on (default), links will appear as just their titles
+until your cursor reaches the same line. This uses Vim's 'conceal' syntax
+feature and was inspired by VimWiki's same feature. Set this variable to 0 to
+turn this feature off.
 
-This mimics VimWiki's mapping to open the wiki index:
-
-nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
-
-Tip: consider creating other mappings to J open other wiki pages you use
+                                                          *vviki-open-mapping*
+You'll probably also want to add a mapping to make it easy to open your wiki.
+The easier it is to get to the wiki, the more likely you are to use it as
+needed. This example mimics VimWiki's default behavior, opening the wiki index:
+>
+    nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
+<
+Tip: consider creating other mappings to open other wiki pages you use
 frequently!
 
 

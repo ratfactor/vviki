@@ -7,13 +7,15 @@
                                                   \/                         ~
 
                                                                        *vviki*
-1. Introduction    |vviki-introduction|
-2. Usage           |vviki-usage|
-3. Mappings        |vviki-mappings|
-     <CR>          |vviki-enter|
-     <Backspace>   |vviki-back|
-4. Configuration   |vviki-configuration|
-5. License         |vviki-license|
+1. Introduction      |vviki-introduction|
+2. Usage             |vviki-usage|
+3. Mappings          |vviki-mappings|
+     <CR>            |vviki-enter|
+     <Backspace>     |vviki-back|
+     <Tab>           (Cursor to next link)
+4. Configuration     |vviki-configuration|
+5. Version History   |vviki-versions|
+6. License           |vviki-license|
 
 
 ==============================================================================
@@ -96,9 +98,11 @@ You now have a wiki with three pages.
 VViki has no global mappings.  When a new wiki page is detected (based on
 directory), the following local mappings are available:
 
-<CR>         |vviki-enter| Create/follow link under cursor.
+<CR>         Create/follow link under cursor. |vviki-enter| 
 
-<Backspace>  |vviki-back| Return to previous page.
+<Backspace>  Return to previous page. |vviki-back| 
+
+<Tab>        Jump cursor to next link on page.
 
 (See the action descriptions below for more details about what each mapping
 does.)
@@ -136,10 +140,10 @@ VViki has these default values:
 
     Setting               | Default Value
 --------------------------+---------------
- `g:vviki_root`           | ~/wiki
- `g:vviki_ext`            | .adoc
- `g:vviki_index`          | index
- `g:vviki_conceal_links`  | 1
+ `g:vviki_root`             | ~/wiki
+ `g:vviki_ext`              | .adoc
+ `g:vviki_index`            | index
+ `g:vviki_conceal_links`    | 1
 
 Here's how you might use a custom directory for your wiki:
 >
@@ -186,9 +190,23 @@ needed. This example mimics VimWiki's default behavior, opening the wiki index:
 Tip: consider creating other mappings to open other wiki pages you use
 frequently!
 
+==============================================================================
+5. Version History                                            *vviki-versions*
+
+1.0.0 June 2020
+ * Added Tab mapping (jump cursor to next link)
+ * Added default 'index' page for directory links
+ * Fixed link creation bug - thanks ds26gte!
+
+Pre-1.0 development starting in late 2019
+ * Proof of concept with Enter key to navigate to existing links
+ * Initial commit 2020-02-01
+ * Backspace back navigation added
+ * Link macro syntax concealing added
+ * Help documentation added
 
 ==============================================================================
-5. License                                                     *vviki-license*
+6. License                                                     *vviki-license*
 
 MIT License
 

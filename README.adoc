@@ -14,6 +14,7 @@ and aims to be extremely lightweight.
 * Hit Enter on a word to create a link
 * Hit Enter on a link to edit that page (or open URL in a browser)
 * Backspace opens previous page
+* Tab jumps the cursor to the next link on the page
 
 
 == Install
@@ -30,22 +31,31 @@ Then run `:source %` and `:BundleInstall`.
 
 == Setup
 
-Add something like this to your `.vimrc`:
+Add something like this to your `~/.vimrc` file (or equivalent):
 
 ----
 " VViki setup
-let g:vviki_root = "~/wiki"
-let g:vviki_ext  = ".adoc"
 nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
 ----
 
-This will set the root of your wiki to `~/wiki`.
-Any file with a `.adoc` extension in that directory (or subdirectory) will have wiki functionality.
+The above mapping will open a page called `index` when you type '<leader>ww'. (Vim's default leader key is '\'. If you've not changed it, you'd type type '\ww'.)  Users coming from VimWiki will be familiar with this mapping.
 
-It also maps the `<leader>ww` key sequence to open the index (start page) of your wiki, just like VimWiki. (To see your leader key, try `:echo mapleader`.)
+By default, VViki uses `~/wiki` as the wiki "root" directory and looks for pages having an `.adoc` extension.  Any file under this directory (or subdirectory) ending in .adoc will be detected as a wiki page.
 
-Note: VViki does not create directories, so you'll need to create `~/wiki` if it does not already exist.
+Note: VViki does not currently create directories, so you'll need to create `~/wiki` if it does not already exist.
 
+== Advanced Setup
+
+Here's a setup example which changes the root directory and extension:
+
+----
+" VViki setup
+let g:vviki_root = "~/secret_diary"
+let g:vviki_ext  = ".txt"
+nnoremap <leader>ww :e ~/wiki/index.txt<cr>
+----
+
+See `:help vviki` for complete documentation and specifically `:help vviki-configuration` for all settings.
 
 == Why?
 
@@ -77,9 +87,9 @@ This table explains the difference:
 * [x] Start help doc
 * [x] Finish help doc
 * [x] Global setting to turn off link syntax conceal
-* [ ] Add <tab> key link navigation (jump to next link)
-* [ ] Consider creating directories as needed (limit to wiki root)
-* [ ] Release 1.0
+* [x] Add <tab> key link navigation (jump to next link)
+* [x] Release 1.0
+* [ ] Wishlist: Consider creating directories as needed (limit to wiki root)
 * [ ] Wishlist: some sort of shortcut (with pattern matching) to add
       links to existing wiki pages
 * [ ] Wishlist: checklist shortcuts (check/uncheck [ ] boxes)

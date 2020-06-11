@@ -77,7 +77,7 @@ function! VVGetLink()
     let l:linkstart=0
     let l:linkend=0
     while 1
-        " Note: match() always functions as if pattern were in "magic" mode!
+        " Note: match() always functions as if pattern were in 'magic' mode!
         let l:linkstart =   match(l:linestr, l:linkrx, l:linkend)
 		let l:matched = matchlist(l:linestr, l:linkrx, l:linkend)
         let l:linkend =  matchend(l:linestr, l:linkrx, l:linkend)
@@ -137,10 +137,15 @@ function! VVSetup()
 	set autowriteall
 
 	" Map ENTER key to create/follow links
-	nnoremap <buffer> <CR> :call VVEnter()<CR>
+	nnoremap <buffer><silent> <CR> :call VVEnter()<CR>
 
 	" Map BACKSPACE key to go back in history
-	nnoremap <buffer> <BS> :call VVBack()<CR>
+	nnoremap <buffer><silent> <BS> :call VVBack()<CR>
+
+    " Map TAB key to find next link in page
+    " NOTE: search() always uses 'magic' regexp mode.
+    "       \{-1,} is Vim for match at least 1, non-greedy
+    nnoremap <buffer><silent> <TAB> :call search('link:.\{-1,}]')<CR>
 
     if g:vviki_conceal_links
         " Conceal the AsciiDoc link syntax until the cursor enters

@@ -48,7 +48,7 @@ function! VVEnter()
 	"   1. We are on whitespace
 	"   2. We are on a bare URL (http://...)
 	"   3. We are on an unlinked word
-	let l:whole_word = expand("<cWORD>") " selects all non-whitespace chars
+	let l:whole_word = expand("[0-9a-zA-Z-_]\+") " selects all non-whitespace chars
 	let l:word = expand("<cword>") " selects only 'word' chars
 
 	if l:whole_word == ''
@@ -61,13 +61,13 @@ function! VVEnter()
 	endif
 
 	" Not a link yet - make it a link!
-	execute "normal! ciwlink:".l:word."[".l:word."]\<ESC>"
+	execute "normal! ciw<<".l:word.".adoc#,".l:word.">>\<ESC>"
 endfunction
 
 
 function! VVGetLink()
 	" Captures the <path> portion of 'link:<path>[description]'
-    let l:linkrx = 'link:\([^[]\+\)\[[^]]\+\]'
+    let l:linkrx = '<<\([^#]\+\).adoc#,[^>]\+>>'
     " Grab cursor pos and current line contents
     let l:cursor = col('.')
     let l:linestr = getline('.')
@@ -145,15 +145,15 @@ function! VVSetup()
     " Map TAB key to find next link in page
     " NOTE: search() always uses 'magic' regexp mode.
     "       \{-1,} is Vim for match at least 1, non-greedy
-    nnoremap <buffer><silent> <TAB> :call search('link:.\{-1,}]')<CR>
+    nnoremap <buffer><silent> <TAB> :call search('<<.\{-1,}]')<CR>
 
     if g:vviki_conceal_links
         " Conceal the AsciiDoc link syntax until the cursor enters
         " the same line.
         set conceallevel=2
-        syntax region vvikiLink start=/link:/ end=/\]/ keepend
-        syntax match vvikiLinkGuts /link:[^[]\+\[/ containedin=vvikiLink contained conceal
-        syntax match vvikiLinkGuts /\]/ containedin=vvikiLink contained conceal
+        syntax region vvikiLink start=/<</ end=/\]/ keepend
+        syntax match vvikiLinkGuts /<<[^>]\+#,/ containedin=vvikiLink contained conceal
+        syntax match vvikiLinkGuts />>/ containedin=vvikiLink contained conceal
         highlight link vvikiLink Macro
         highlight link vvikiLinkGuts Comment
     endif
@@ -167,4 +167,3 @@ augroup vviki
 	au!
 	execute "au BufNewFile,BufRead ".g:vviki_root."/*".g:vviki_ext." call VVSetup()"
 augroup END
-

@@ -12,8 +12,16 @@
 3. Mappings          |vviki-mappings|
      <CR>            |vviki-enter|
      <Backspace>     |vviki-back|
-     <Tab>           (Cursor to next link)
+     <Tab>           |vviki-next|
+3.1 Custom Mappings  |vviki-custom-mappings| 
+     Open a wiki     |vviki-open-mapping|
+     Multiple wikis  |vviki-multiple-wikis|
 4. Configuration     |vviki-configuration|
+     g:vviki_root             |vviki_root|
+     g:vviki_ext              |vviki_ext|
+     g:vviki_index            |vviki_index|
+     g:vviki_conceal_links    |vviki_conceal_links|
+     g:vviki_page_link_syntax |vviki_page_link_syntax|
 5. Version History   |vviki-versions|
 6. License           |vviki-license|
 
@@ -27,11 +35,11 @@ mappings to link pages, create new pages, and navigate between pages.
 
 VViki was inspired by VimWiki (and shares many of the same mappings).
 
-VViki uses AsciiDoc syntax because that is what the author prefers (AsciiDoc is
-lightweight and readable like Markdown, but has the expressive power of DocBook
-- a markup language intended for authoring technical documentation.) VViki uses
-Vim's existing AsciiDoc syntax highlighting (or you are free to substitute any
-other AsciiDoc syntax highlighter - or none at all).
+VViki uses AsciiDoc syntax because that is what the author prefers (AsciiDoc
+is lightweight and readable like Markdown, but has the expressive power of
+DocBook - a markup language intended for authoring technical documentation.)
+VViki uses Vim's existing AsciiDoc syntax highlighting (or you are free to
+substitute any other AsciiDoc syntax highlighter - or none at all).
 
 VViki is excellent for:
 
@@ -59,7 +67,7 @@ The most important thing to understand is the link "macro" syntax:
     link:mydir/mypage2[My Page Two]      (same dir)/mydir/mypage2.adoc
     link:mydir/[My Dir]                  (same dir)/mydir/index.adoc
 <
-(Examples assume VViki defaults.)
+(Examples assume VViki defaults - see |vviki_page_link_syntax|.)
 
 AsciiDoc's `link:<path>[label]` format is a little verbose, and that's where
 VViki's link mapping comes in handy. Enter creates links from plain words or
@@ -107,8 +115,8 @@ directory), the following local mappings are available:
 (See the action descriptions below for more details about what each mapping
 does.)
 
-------------------------------------------------------------------------------
-                                                                 *vviki-enter*
+
+Enter                                                            *vviki-enter*
 
 Put your cursor on a plain "word" in normal mode and press Enter to convert
 the word to a link. The link destination and label will both be the word. For
@@ -126,61 +134,30 @@ NOTE: At this time, VViki happily creates new pages, but doesn't create
 directories. You may want to create subdirectories before editing pages within
 them.
 
-------------------------------------------------------------------------------
-                                                                  *vviki-back*
+
+Back                                                              *vviki-back*
 
 VViki keeps a history of visited wiki pages. Pressing Backspace in normal mode
 visits the previously visited page and the page before that until you run out
 of history.
 
-==============================================================================
-4. Configuration                                         *vviki-configuration*
 
-VViki has these default values:
+Next                                                              *vviki-next*
 
-    Setting               | Default Value
---------------------------+---------------
- `g:vviki_root`             | ~/wiki
- `g:vviki_ext`              | .adoc
- `g:vviki_index`            | index
- `g:vviki_conceal_links`    | 1
+Pressing the Tab key in normal mode jumps the cursor to the next available
+wiki link in the current document.
 
-Here's how you might use a custom directory for your wiki:
->
-    let g:vviki_root = "~/my_cool_wiki"
-<
-These settings would most likely be set in your `~.vimrc` file or equivalent.
 
-                                                                *g:vviki_root*
-Set the root directory of the wiki using `g:vviki_root`. VViki will use this
-root to detect wiki pages when they are opened. Files outside of this root
-will not be detected as wiki pages regardless of file extension.
+------------------------------------------------------------------------------
+3.1 Custom Mappings                                    *vviki-custom-mappings*
 
-                                                                 *g:vviki_ext*
-Set the file extension for wiki pages with `g:vviki_ext`. Since VViki is
-intended to be used with AsciiDoc source files, you may wish to use .adoc (the
-default) or .asciidoc, but anything is allowed. VViki will use this extension
-to find existing files (by appending the extension to link names to make a
-file path) and when it creates new pages.
+Rather than attempt to predict and accommodate all possible setups, VViki
+highly encourages you to create your own Vim shortcuts and scripts to make
+your setup efficient for you!
 
-                                                               *g:vviki_index*
-You can define a custom name for "index" pages - the default page accessed by a
-link to a directory (ending in a slash). These are analogous to the default
-documents served up by web servers (such as "index.html"). With the default
-setting, the following links are exactly equivalent. Both will open
-`cheese/index.adoc` (assuming the default extension):
->
-    Notes about link:cheese/[Cheese].
-    Notes about link:cheese/index[Cheese].
-<
 
-                                                       *g:vviki_conceal_links*
-With this option turned on (default), links will appear as just their titles
-until your cursor reaches the same line. This uses Vim's 'conceal' syntax
-feature and was inspired by VimWiki's same feature. Set this variable to 0 to
-turn this feature off.
+Open a wiki                                               *vviki-open-mapping*
 
-                                                          *vviki-open-mapping*
 You'll probably also want to add a mapping to make it easy to open your wiki.
 The easier it is to get to the wiki, the more likely you are to use it as
 needed. This example mimics VimWiki's default behavior, opening the wiki index:
@@ -189,6 +166,169 @@ needed. This example mimics VimWiki's default behavior, opening the wiki index:
 <
 Tip: consider creating other mappings to open other wiki pages you use
 frequently!
+
+
+Multiple wikis                                          *vviki-multiple-wikis*
+
+Because VViki uses global settings for each Vim session, it can only edit one
+wiki AT A TIME. But this is probably not as big a barrier to having multiple
+wikis as you might think.
+
+The following opens two different wikis with `<leader>w1` and `<leader>w2`
+shortcuts. Both wikis can be edited in the same Vim session. Only one will
+have active link navigation, etc. at a time.
+>
+   function! OpenWiki()
+		execute 'edit '.g:vviki_root.'/'.g:vviki_index.g:vviki_ext
+	endfunction
+
+	function! OpenDiary()
+		let g:vviki_root  = '~/diary_wiki'
+		let g:vviki_index = 'contents'
+		let g:vviki_ext   = '.txt'
+		call OpenWiki()
+	endfunction
+
+	function! OpenNotes()
+		let g:vviki_root  = '~/project1/notes'
+		let g:vviki_index = 'index'
+		let g:vviki_ext   = '.adoc'
+		call OpenWiki()
+	endfunction
+
+	nnoremap <leader>w1 :call OpenDiary()<CR>
+	nnoremap <leader>w2 :call OpenNotes()<CR>
+< 
+Though this example may seem large at first, any part of it can be used as the
+basis for a huge variety of customizations. The mind reels at the endless
+possibilities.
+
+
+==============================================================================
+4. Configuration                                         *vviki-configuration*
+
+Any changes to the VViki configuration settings would most likely be set in
+your `~.vimrc` file or equivalent.
+
+VViki has these default values:
+
+      Setting                 | Default Value
+    --------------------------+---------------
+     `g:vviki_root`             | "~/wiki"
+     `g:vviki_ext`              | ".adoc"
+     `g:vviki_index`            | "index"
+     `g:vviki_conceal_links`    | 1
+     `g:vviki_page_link_syntax` | "link"
+
+
+Each is explained in detail below:
+
+
+g:vviki_root                                                      *vviki_root*
+
+Set the root directory of the wiki using `g:vviki_root`. VViki will use this
+root to detect wiki pages when they are opened. Files outside of this root
+will not be detected as wiki pages regardless of file extension.
+
+Here's how you might use a custom directory for your wiki:
+>
+    let g:vviki_root = "~/my_cool_wiki"
+<
+
+
+g:vviki_ext                                                        *vviki_ext*
+
+Set the file extension for wiki pages with `g:vviki_ext`. Since VViki is
+intended to be used with AsciiDoc source files, you may wish to use .adoc (the
+default) or .asciidoc, but anything is allowed. VViki will use this extension
+to find existing files (by appending the extension to link names to make a
+file path) and when it creates new pages.
+
+Here's an example of using a non-default file extension:
+>
+    let g:vviki_ext = ".asciidoc"
+<
+
+g:vviki_index                                                    *vviki_index*
+
+You can define a custom name for "index" pages - the default page accessed by
+a link to a directory (ending in a slash). These are analogous to the default
+documents served up by web servers (such as "index.html"). With the default
+setting, the following links are exactly equivalent. Both will open
+`cheese/index.adoc` (assuming the default extension):
+>
+    Notes about link:cheese/[Cheese].
+    Notes about link:cheese/index[Cheese].
+<
+
+Here's an example of an alternative wiki index page:
+>
+    let g:vviki_index = "home"
+<
+
+
+g:vviki_conceal_links                                    *vviki_conceal_links*
+
+With this option turned on (default), links will appear as just their titles
+until your cursor reaches the same line. This uses Vim's 'conceal' syntax
+feature and was inspired by VimWiki's same feature. Set this variable to 0 to
+turn this feature off.
+
+To turn off link syntax concealing, set it to 0 like so:
+>
+    let g:vviki_conceal_links = 0
+<
+
+
+g:vviki_page_link_syntax                              *vviki_page_link_syntax*
+
+Unfortunately, AsciiDoc does not define syntax for linking across documents.
+Therefore, VViki currently supports three syntax styles. All three will work
+exactly the same within Vim. The differences will be noticed when you attempt
+to export your AsciiDoc pages to another format (such as HTML).
+
+To use a non-default link syntax style, set it like so:
+>
+    let g:vviki_page_link_syntax = 'olink'
+<
+
+(Note that VViki will recognize all supported link syntax styles as links and
+follow them regardless of setting - all other features (such as syntax
+concealing and creating new links) will use the chosen syntax style
+exclusively.)
+
+The available syntax options:
+
+        Syntax        | Example           | asciidoc | asciidoctor
+    ------------------+-------------------+----------+-------------
+     "link" (default) | `link:foo[My Foo]`  | foo      | foo
+     "olink"          | `olink:foo[My Foo]` |          |
+     "xref_hack"      | `<<foo#,My Foo>>`   | foo      | foo.html
+
+Because the need for the different syntax styles lies in the conversion of
+pages to other formats (such as HTML), the above table shows the linked page
+filename as exported by each of the two most popular command line tools
+`asciidoc` (Python) and `asciidoctor` (Ruby) as they would export each of the
+different link syntaxes.
+
+You'll note that only one combination produces relative (wiki-internal) page
+filename links with a ".html" file extension when exporting to HTML. (More
+about the "olink" results in a moment.)
+
+The author of VViki uses the default "link" syntax and actually prefers the
+"extensionless" filenames. When delivered from an Apache web server, they are
+recognized correctly as HTML and display correctly in all browsers, giving
+so-called "clean URLs".
+
+One could certainly write pre- or post-processing scripts to manipulate the
+AsciiDoc source files to add file extensions to links as well.
+
+DocBook (the XML format on which AsciiDoc is based) has a link syntax
+specifically addressing the issue of "establishing links across documents."
+The "olink" type links to a document by name rather than FILEname. It is the
+author's hope that an "olink" macro will someday be recognized by major
+AsciiDoc processing applications for this specific purpose. None do at this
+time, so the option in VViki is purely aspirational.
 
 ==============================================================================
 5. Version History                                            *vviki-versions*

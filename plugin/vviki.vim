@@ -37,6 +37,11 @@ if !exists('g:vviki_page_link_syntax')
     let g:vviki_page_link_syntax = 'link'
 endif
 
+if !exists('g:vviki_visual_link_creation')
+    " Allow link creation from selected text in visual mode
+    let g:vviki_visual_link_creation = 0
+endif
+
 " Navigation history for Backspace
 let s:history = []
 
@@ -104,6 +109,18 @@ function! VVEnter()
 	" Cursor on unlinked word - make it a link!
     let l:new_link = VVMakeLink(l:word, l:word)
 	execute "normal! ciw".l:new_link."\<ESC>"
+endfunction
+
+
+function! VVVisualEnter()
+    " Creates a new page link using whatever text is visually selected.
+    " Yank selection, replace with link, restore default register
+    let previous_register_contents = getreg('"')
+    normal! gvy
+    let user_selection = getreg('"')
+    call setreg('"', VVMakeLink(user_selection, user_selection))
+    normal! gvp
+    call setreg('"', previous_register_contents)
 endfunction
 
 
@@ -197,7 +214,7 @@ function! VVGoPath(path)
         let l:fname = expand("%:p:h")."/".l:fname.g:vviki_ext
     endif
 
-    execute "edit ".l:fname
+    execute "edit ".shellescape(l:fname)
 endfunction
 
 
@@ -212,7 +229,7 @@ function! VVBack()
 	endif
 
 	let l:last = remove(s:history, -1)
-	execute "edit ".l:last
+	execute "edit ".shellescape(l:last)
 endfunction
 
 
@@ -253,6 +270,10 @@ function! VVSetup()
     " NOTE: search() always uses 'magic' regexp mode.
     "       \{-1,} is Vim for match at least 1, non-greedy
     nnoremap <buffer><silent> <TAB> :call VVFindNextLink()<CR>
+
+    if g:vviki_visual_link_creation
+        vnoremap <buffer><silent> <CR> :call VVVisualEnter()<CR>
+    endif
 
     if g:vviki_conceal_links
         call VVConcealLinks()

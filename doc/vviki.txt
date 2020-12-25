@@ -17,11 +17,12 @@
      Open a wiki     |vviki-open-mapping|
      Multiple wikis  |vviki-multiple-wikis|
 4. Configuration     |vviki-configuration|
-     g:vviki_root             |vviki_root|
-     g:vviki_ext              |vviki_ext|
-     g:vviki_index            |vviki_index|
-     g:vviki_conceal_links    |vviki_conceal_links|
-     g:vviki_page_link_syntax |vviki_page_link_syntax|
+     g:vviki_root                 |vviki_root|
+     g:vviki_ext                  |vviki_ext|
+     g:vviki_index                |vviki_index|
+     g:vviki_conceal_links        |vviki_conceal_links|
+     g:vviki_page_link_syntax     |vviki_page_link_syntax|
+     g:vviki_visual_link_creation |vviki_visual_link_creation|
 5. Version History   |vviki-versions|
 6. License           |vviki-license|
 
@@ -212,13 +213,14 @@ your `~.vimrc` file or equivalent.
 
 VViki has these default values:
 
-      Setting                 | Default Value
-    --------------------------+---------------
-     `g:vviki_root`             | "~/wiki"
-     `g:vviki_ext`              | ".adoc"
-     `g:vviki_index`            | "index"
-     `g:vviki_conceal_links`    | 1
-     `g:vviki_page_link_syntax` | "link"
+      Setting                     | Default Value
+    --------------------------------+---------------
+     `g:vviki_root`                 | "~/wiki"
+     `g:vviki_ext`                  | ".adoc"
+     `g:vviki_index`                | "index"
+     `g:vviki_conceal_links`        | 1
+     `g:vviki_page_link_syntax`     | "link"
+     `g:vviki_visual_link_creation` | 0
 
 
 Each is explained in detail below:
@@ -329,6 +331,19 @@ The "olink" type links to a document by name rather than FILEname. It is the
 author's hope that an "olink" macro will someday be recognized by major
 AsciiDoc processing applications for this specific purpose. None do at this
 time, so the option in VViki is purely aspirational.
+
+
+g:vviki_visual_link_creation                      *vviki_visual_link_creation*
+
+This setting allows you to select multiple words of text using Vim's visual
+mode and turn them into a link by pressing the Enter key. The resulting link
+page and description will both be the exact text selected visually.
+
+This option is off by default. Turn it on like so:
+>
+    let g:vviki_visual_link_creation = 1
+<
+
 
 ==============================================================================
 5. Version History                                            *vviki-versions*

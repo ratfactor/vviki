@@ -23,6 +23,7 @@
      g:vviki_conceal_links        |vviki_conceal_links|
      g:vviki_page_link_syntax     |vviki_page_link_syntax|
      g:vviki_visual_link_creation |vviki_visual_link_creation|
+     g:vviki_links_include_ext    |vviki_links_include_ext|
 5. Version History   |vviki-versions|
 6. License           |vviki-license|
 
@@ -221,7 +222,7 @@ VViki has these default values:
      `g:vviki_conceal_links`        | 1
      `g:vviki_page_link_syntax`     | "link"
      `g:vviki_visual_link_creation` | 0
-
+     `g:vviki_links_include_ext`    | 0
 
 Each is explained in detail below:
 
@@ -343,6 +344,22 @@ This option is off by default. Turn it on like so:
 >
     let g:vviki_visual_link_creation = 1
 <
+
+
+g:vviki_links_include_ext                            *vviki_links_include_ext*
+
+By default, VViki creates wiki document links without file extensions. With
+this option turned on, the file extension (see |vviki_ext|) will be included
+in the link path (e.g. `link:foo[My Foo]` becomes `link:foo.adoc[My Foo]`).
+
+Note that the two styles are incompatible - links created with the option on
+will not work when the option is off and vice versa.
+
+This option is off by default. Turn it on like so:
+>
+    let g:vviki_links_include_ext = 1
+<
+
 
 
 ==============================================================================

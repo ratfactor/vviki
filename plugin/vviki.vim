@@ -7,7 +7,8 @@ endif
 let g:loaded_vviki = 1
 
 " Initialize configuration defaults
-" See 'Configuration' in the help documentation for full explanation.
+" See 'Configuration' in the help documentation for full explanations.
+"
 if !exists('g:vviki_root')
     " Default root directory for (current) wiki
 	let g:vviki_root = "~/wiki"
@@ -30,7 +31,7 @@ if !exists('g:vviki_conceal_links')
 endif
 
 if !exists('g:vviki_page_link_syntax')
-    " Set the VViki internal (wiki page) link syntax to one of:
+    " Set internal wiki page link syntax to one of:
     "   'link'        ->   link:foo[My Foo]
     "   'olink'       ->   olink:foo[My Foo]
     "   'xref_hack'   ->   <<foo#,My Foo>>
@@ -40,6 +41,12 @@ endif
 if !exists('g:vviki_visual_link_creation')
     " Allow link creation from selected text in visual mode
     let g:vviki_visual_link_creation = 0
+endif
+
+if !exists('g:vviki_links_include_ext')
+    " Internal wiki page links include the file extension.
+    " (File extension is set via g:vviki_ext.)
+    let g:vviki_links_include_ext = 0
 endif
 
 " Navigation history for Backspace
@@ -173,12 +180,17 @@ endfunction
 
 function! VVMakeLink(uri, description)
     " Returns string with link of desired AsciiDoc syntax 'style'
+    let l:uri = a:uri
+    if g:vviki_links_include_ext
+        " Attach the wiki file extension to the link URI
+        let l:uri = l:uri.g:vviki_ext
+    endif
     if g:vviki_page_link_syntax == 'link'
-        return "link:".a:uri."[".a:description."]"
+        return "link:".l:uri."[".a:description."]"
     elseif g:vviki_page_link_syntax == 'olink'
-        return "olink:".a:uri."[".a:description."]"
+        return "olink:".l:uri."[".a:description."]"
     elseif g:vviki_page_link_syntax == 'xref_hack'
-        return "<<".a:uri."#,".a:description.">>"
+        return "<<".l:uri."#,".a:description.">>"
     endif
 endfunction
 
@@ -206,15 +218,23 @@ function! VVGoPath(path)
         let l:fname = l:fname.g:vviki_index
     end
 
-    if l:fname =~ '^/'
-        " Path absolute from wiki root
-        let l:fname = g:vviki_root."/".l:fname.g:vviki_ext
-    else
-        " Path relative to current page
-        let l:fname = expand("%:p:h")."/".l:fname.g:vviki_ext
+    " fname will no longer change, we can add extension here
+    if !g:vviki_links_include_ext
+        " Links don't already include extension, add it
+        let l:fname = l:fname.g:vviki_ext
     endif
 
-    execute "edit ".shellescape(l:fname)
+    if l:fname =~ '^/'
+        " Path absolute from wiki root
+        let l:fname = g:vviki_root."/".l:fname
+    else
+        " Path relative to current page
+        let l:fname = expand("%:p:h")."/".l:fname
+    endif
+
+    let l:fname = fnameescape(l:fname)
+
+    execute "edit ".l:fname
 endfunction
 
 
@@ -229,7 +249,7 @@ function! VVBack()
 	endif
 
 	let l:last = remove(s:history, -1)
-	execute "edit ".shellescape(l:last)
+	execute "edit ".fnameescape(l:last)
 endfunction
 
 

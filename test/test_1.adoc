@@ -1,0 +1,32 @@
+= Test 1 - Instructions and basic links
+
+Welcome to the first test document.
+
+== Test basic linking
+
+Make sure this link looks like `Foo` and `link:foo[Foo]` depending on whether
+or not your cursor is on the line. Enter should take you to the Foo page.
+
+link:foo[Foo]  <-- Test this link.
+
+
+== Test script
+
+Every test document also has a script which sets up the environment for that
+particular test. In this case, we're just going with the defaults, so there's
+not much going on in this one:
+
+----
+Test Script Start
+echo "Hello! This test uses defaults, so there's nothing to do here."
+Test Script End
+----
+
+
+== Test controls
+
+To navigate, use the following keyboard shortcuts:
+
+`F5`     Reloads the test (very useful for debugging)
+`Right`  Load the next test
+`Left`   Load the previous test

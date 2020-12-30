@@ -1,0 +1,14 @@
+= Foo
+
+Welcome to Foo! The link worked!
+
+You can use `Backspace` to return (or press `F5` to reload the test).
+
+== Linking back
+
+One of the following three links should work to get you back:
+
+link  - link:current_doc[Current Test Doc]
+olink - olink:current_doc[Current Test Doc]
+xref  - <<current_doc#,Current Test Doc>>
+

@@ -25,7 +25,8 @@
      g:vviki_visual_link_creation |vviki_visual_link_creation|
      g:vviki_links_include_ext    |vviki_links_include_ext|
 5. Version History   |vviki-versions|
-6. License           |vviki-license|
+6. Testing           |vviki-testing|
+7. License           |vviki-license|
 
 
 ==============================================================================
@@ -365,6 +366,12 @@ This option is off by default. Turn it on like so:
 ==============================================================================
 5. Version History                                            *vviki-versions*
 
+1.1.0 December 2020
+ * Added new link sytanx style options
+ * Added multi-word link from visual selection option
+ * Added file extension in link option
+ * Added interactive test script system
+
 1.0.0 June 2020
  * Added Tab mapping (jump cursor to next link)
  * Added default 'index' page for directory links
@@ -377,8 +384,31 @@ Pre-1.0 development starting in late 2019
  * Link macro syntax concealing added
  * Help documentation added
 
+
 ==============================================================================
-6. License                                                     *vviki-license*
+6. Testing                                                      *vviki-testng*
+
+The VViki project contains a test script at test/test.vim. The script sets up
+test wiki pages with particular settings to be interactively tested.
+
+Running the test script is an easy way to try out VViki's basic functionality
+without setting up or installing anything (VViki does not even need to be
+installed as a plugin!)
+
+To start the test system, enter the VViki project directory and run the
+script:
+>
+    cd ~/coolstuff/vviki
+    vim -S test/test.vim
+<
+
+The first test document should open immediately. It contains instructions for
+using the tests (shortcut keys are mapped for fast/easy usage). All tests are
+self-documented.
+
+
+==============================================================================
+7. License                                                     *vviki-license*
 
 MIT License
 

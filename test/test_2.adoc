@@ -1,0 +1,14 @@
+= Test 2 - xref link syntax
+
+This link should have syntax concealed when the cursor is off the line and it
+should correctly link to the Foo page:
+
+<<foo#,Foo>>  <-- Test this link and note the syntax.
+
+----
+Test Script Start
+let g:vviki_page_link_syntax = 'xref_hack'
+Test Script End
+----
+
+

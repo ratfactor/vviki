@@ -1,0 +1,19 @@
+= Test 6 - Link-a-palooza (all three link options altered)
+
+Make sure combos of link options work.
+
+Use a visual selection (e.g. `vee`) to highlight the words "foo bar" below
+and then hit Enter to create a multi-word link. Hit Enter again to navigate
+to the link. It should attempt to open a file named "foo bar.adoc".
+
+Link to foo bar should work.  <-- Create `foo bar` link here.
+
+The created link should look like this: `<<foo bar.adoc#,foo bar>>`
+
+----
+Test Script Start
+let g:vviki_page_link_syntax = 'xref_hack'
+let g:vviki_visual_link_creation = 1
+let g:vviki_links_include_ext = 1
+Test Script End
+----

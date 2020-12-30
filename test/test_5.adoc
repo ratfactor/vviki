@@ -1,0 +1,13 @@
+= Test 5 - Links include the filename extension
+
+With this option turned on, the link will include the ".adoc" file extension.
+Create a link by hitting Enter on the word "foo". It should create a link to
+`foo.adoc`. Follow the link to make sure it goes to the file.
+
+foo  <-- Create `foo.adoc` link here and test it.
+
+----
+Test Script Start
+let g:vviki_links_include_ext = 1
+Test Script End
+----

@@ -1,0 +1,11 @@
+= Test 3 - olink syntax
+
+olink:foo[Foo]  <-- Test this link and note the `olink` syntax.
+
+----
+Test Script Start
+let g:vviki_page_link_syntax = 'olink'
+Test Script End
+----
+
+

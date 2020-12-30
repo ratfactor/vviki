@@ -19,6 +19,8 @@ and aims to be extremely lightweight.
 
 == Install
 
+VViki is in the standard Vim plugin structure. Any plugin installation method (incuding popular plugin managers) should work. If you have additional installation instructions to add here, I'll gladly add them:
+
 === Vundle
 
 Add this to your plugin list (in your `.vimrc` file):
@@ -34,17 +36,17 @@ Then run `:source %` and `:BundleInstall`.
 Add something like this to your `~/.vimrc` file (or equivalent):
 
 ----
-" VViki setup
+" VViki setup - relies on the default wiki root dir (~/wiki)
 nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
 ----
 
 The above mapping will open a page called `index` when you type '<leader>ww'. (Vim's default leader key is '\'. If you've not changed it, you'd type type '\ww'.)  Users coming from VimWiki will be familiar with this mapping.
 
-By default, VViki uses `~/wiki` as the wiki "root" directory and looks for pages having an `.adoc` extension.  Any file under this directory (or subdirectory) ending in .adoc will be detected as a wiki page.
-
 Note: VViki does not currently create directories, so you'll need to create `~/wiki` if it does not already exist.
 
 == Advanced Setup
+
+By default, VViki uses `~/wiki` as the wiki "root" directory and looks for pages having an `.adoc` extension.  Any file under this directory (or subdirectory) ending in .adoc will be detected as a wiki page.
 
 Here's a setup example which changes the root directory and extension:
 
@@ -52,7 +54,7 @@ Here's a setup example which changes the root directory and extension:
 " VViki setup
 let g:vviki_root = "~/secret_diary"
 let g:vviki_ext  = ".txt"
-nnoremap <leader>ww :e ~/wiki/index.txt<cr>
+nnoremap <leader>ww :e ~/secret_diary/index.txt<cr>
 ----
 
 See `:help vviki` for complete documentation and specifically `:help vviki-configuration` for all settings.
@@ -73,6 +75,21 @@ This table explains the difference:
 |Syntax highlighting|X|
 |Tooling (search, HTML export, etc.)|X|
 |===
+
+
+== Testing
+
+Running the interactive test script is an easy way to try out VViki's basic functionality without setting up or installing anything. VViki does not even need to be installed as a plugin!
+
+To go from nothing to trying out and testing a wiki, try this:
+
+----
+git clone https://github.com/ratfactor/vviki
+cd vviki
+vim -S test/test.vim
+----
+
+The first test document should open immediately. It contains instructions for using the tests (shortcut keys are mapped for fast/easy usage). All tests are self-documented.
 
 
 == TODO
